@@ -1,9 +1,11 @@
 #ifndef VITOWM_LAYOUT_H
 #define VITOWM_LAYOUT_H
 
+#include <wlr/util/box.h>
+
 struct LayoutNode {
 
-    enum NodeType {
+    enum {
         CLIENT,
         HORIZONTAL,
         VERTICAL

@@ -24,6 +24,9 @@ wayland.o: wayland.c layout.h xdg-shell-protocol.h wlr-layer-shell-unstable-v1-p
 layout.o: layout.c layout.h wayland.h config.h
 	$(CC) -c $< $(FLAGS)
 
+surface.o: surface.c surface.h layout.h wayland.h xdg-shell-protocol.h wlr-layer-shell-unstable-v1-protocol.h
+	$(CC) -c $< $(FLAGS)
+
 VitoWM: wayland.o layout.o config.h
 	$(CC) -o VitoWM $^ $(LIBS)
 

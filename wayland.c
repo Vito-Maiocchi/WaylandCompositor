@@ -31,48 +31,10 @@
 
 #include "layout.h"
 #include "config.h"
-
-static struct WaylandServer {
-    struct wl_display* display;
-	struct wlr_backend* backend;
-	struct wlr_renderer* renderer;
-	struct wlr_allocator* allocator;
-	struct wlr_scene* scene;
-	struct wlr_scene_output_layout* scene_layout;
-
-	struct wlr_output_layout* output_layout;
-	struct wl_list outputs;
-	struct wl_listener new_output_listener;
-
-	struct wlr_cursor* cursor;
-	struct wlr_xcursor_manager* cursor_mgr;
-	struct WaylandClient* pointer_focus;
-	struct wl_listener cursor_motion;
-	struct wl_listener cursor_motion_absolute;
-	struct wl_listener cursor_button;
-	struct wl_listener cursor_axis;
-	struct wl_listener cursor_frame;
-
-	struct wlr_seat* seat;
-	struct wl_listener new_input;
-	struct wl_listener request_cursor;
-	struct wl_listener request_set_selection;
-	struct wl_list keyboards;
-
-	struct wlr_xdg_shell *xdg_shell;
-	struct wl_listener new_xdg_surface;
-	struct wlr_xdg_decoration_manager_v1 *xdg_decoration_mgr;
-    struct wl_listener xdg_decoration_listener;
-
-	struct wlr_layer_shell_v1* layer_shell;
-	struct wl_listener new_layer_shell_surface;
-	struct wl_listener delete_layer_shell_surface;
-
-	struct WaylandClient* focusedClient;
-} server;
+#include "wayland.h"
 
 struct WaylandClient {
-	struct wlr_xdg_toplevel *xdg_toplevel;
+	struct wlr_xdg_toplevel* xdg_toplevel;
 	struct wlr_xdg_surface* xdg_surface;
 
 	struct wlr_scene_tree* root_node; //Root node of the window. It is the parent of the surface and the borders
@@ -651,7 +613,6 @@ bool waylandSetup() {
 	server.scene = wlr_scene_create();
 	server.scene_layout = wlr_scene_attach_output_layout(server.scene, server.output_layout);
 
-	//TODO: LAYER SHELL IMPLEMENT das isch für so rofi und so
 	server.layer_shell = wlr_layer_shell_v1_create(server.display, 4);
 	server.new_layer_shell_surface.notify = layer_shell_new_surface;
 	server.delete_layer_shell_surface.notify = layer_shell_delete_surface;
